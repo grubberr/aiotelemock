@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import aioredis
+import aiohttp
 from aiohttp import web
 from views import SendMessage, SendChatAction, BotApi, ChatApi, UserApi
 
@@ -11,9 +12,14 @@ async def create_redis(app):
         'redis://localhost', minsize=5, maxsize=10)
 
 
+async def create_client_session(app):
+    app['client_session'] = aiohttp.ClientSession()
+
+
 app = web.Application()
 
 app.on_startup.append(create_redis)
+app.on_startup.append(create_client_session)
 
 app.router.add_view('/user', UserApi)
 app.router.add_view('/user/{username}', UserApi)

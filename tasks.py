@@ -18,9 +18,8 @@ async def start_chat(app, chat):
     user = await User(app).get(chat['username'])
     response = await create_fake_message(app, user, chat, '/start')
 
-    async with aiohttp.ClientSession() as session:
-        async with session.post(bot['callback'], json=response) as resp:
-            await resp.text()
+    async with app['client_session'].post(bot['callback'], json=response) as resp:
+        await resp.text()
 
 
 async def random_replay(app, chat, keyboard):
@@ -31,6 +30,5 @@ async def random_replay(app, chat, keyboard):
     user = await User(app).get(chat['username'])
     response = await create_fake_message(app, user, chat, answer)
 
-    async with aiohttp.ClientSession() as session:
-        async with session.post(bot['callback'], json=response) as resp:
-            await resp.text()
+    async with app['client_session'].post(bot['callback'], json=response) as resp:
+        await resp.text()
