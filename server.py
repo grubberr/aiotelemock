@@ -3,6 +3,7 @@
 import aioredis
 import aiohttp
 from aiohttp import web
+from aiohttp.connector import TCPConnector
 from views import SendMessage, SendChatAction, BotApi, ChatApi, UserApi
 
 
@@ -13,7 +14,7 @@ async def create_redis(app):
 
 
 async def create_client_session(app):
-    app['client_session'] = aiohttp.ClientSession()
+    app['client_session'] = aiohttp.ClientSession(connector=TCPConnector(limit=300))
 
 
 app = web.Application()
