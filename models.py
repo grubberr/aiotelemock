@@ -61,5 +61,5 @@ class Chat:
         return data
 
     async def incr_update_id(self, chat_id):
-        key = 'chats:%s' % id
+        key = 'chats:%s' % chat_id
         return await self.app['redis_client'].hincrby(key, 'update_id', 1)
